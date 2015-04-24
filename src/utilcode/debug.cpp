@@ -702,6 +702,7 @@ VOID DbgAssertDialog(const char *szFile, int iLine, const char *szExpr)
     STATIC_CONTRACT_SUPPORTS_DAC_HOST_ONLY;
     
     DEBUG_ONLY_FUNCTION;
+	return; // not sure how to turn off debug breaks
 
 #ifdef MDA_SUPPORTED
 #ifdef _DEBUG

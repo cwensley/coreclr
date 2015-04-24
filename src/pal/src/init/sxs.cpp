@@ -36,7 +36,7 @@ Abstract:
 --*/
 extern "C" void CheckPalThread()
 {
-    if (PALIsInitialized())
+/*    if (PALIsInitialized())
     {
         CPalThread *pThread = InternalGetCurrentThread();
         if (!pThread)
@@ -53,7 +53,7 @@ extern "C" void CheckPalThread()
             // entire concept later.
             WARN("PAL function called on a thread external to this PAL\n");
         }
-    }
+    }*/
 }
 #endif // _DEBUG
 

@@ -249,10 +249,12 @@ HeapAlloc(
 #ifdef __APPLE__
     // This is patterned off of InternalMalloc in malloc.cpp.
     {
-        CPalThread *pthrCurrent = InternalGetCurrentThread();
-        pthrCurrent->suspensionInfo.EnterUnsafeRegion();
+    	// Turn of thread checking as Grand Central Dispatch creates its own threads
+    	// and we have no way to inject a PAL_Enter into each thread created.
+        //CPalThread *pthrCurrent = InternalGetCurrentThread();
+        //pthrCurrent->suspensionInfo.EnterUnsafeRegion();
         pMem = (BYTE *)malloc_zone_malloc((malloc_zone_t *)hHeap, fullsize);
-        pthrCurrent->suspensionInfo.LeaveUnsafeRegion();
+        //pthrCurrent->suspensionInfo.LeaveUnsafeRegion();
     }
 #else // __APPLE__
     pMem = (BYTE *) PAL_malloc(fullsize);
@@ -348,10 +350,10 @@ HeapFree(
 #ifdef __APPLE__
     // This is patterned off of InternalFree in malloc.cpp.
     {
-        CPalThread *pthrCurrent = InternalGetCurrentThread();
-        pthrCurrent->suspensionInfo.EnterUnsafeRegion();
+        //CPalThread *pthrCurrent = InternalGetCurrentThread();
+        //pthrCurrent->suspensionInfo.EnterUnsafeRegion();
         malloc_zone_free((malloc_zone_t *)hHeap, lpMem);
-        pthrCurrent->suspensionInfo.LeaveUnsafeRegion();
+        //pthrCurrent->suspensionInfo.LeaveUnsafeRegion();
     }
 #else // __APPLE__
     PAL_free (lpMem);
@@ -444,10 +446,10 @@ HeapReAlloc(
 #ifdef __APPLE__
     // This is patterned off of InternalRealloc in malloc.cpp.
     {
-        CPalThread *pthrCurrent = InternalGetCurrentThread();
-        pthrCurrent->suspensionInfo.EnterUnsafeRegion();
+        //CPalThread *pthrCurrent = InternalGetCurrentThread();
+        //pthrCurrent->suspensionInfo.EnterUnsafeRegion();
         pMem = (BYTE *) malloc_zone_realloc((malloc_zone_t *)hHeap, lpmem, fullsize);
-        pthrCurrent->suspensionInfo.LeaveUnsafeRegion();
+        //pthrCurrent->suspensionInfo.LeaveUnsafeRegion();
     }
 #else // __APPLE__
     pMem = (BYTE *) PAL_realloc(lpmem,fullsize);
